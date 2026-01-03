@@ -14,10 +14,13 @@ export default function SettingsPage() {
   const [connectionLink, setConnectionLink] = useState<string | null>(null);
   const [deepLink, setDeepLink] = useState<string | null>(null);
   const [linkExpiry, setLinkExpiry] = useState<string | null>(null);
+  const [manualToken, setManualToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [disconnecting, setDisconnecting] = useState(false);
   const [savingPreference, setSavingPreference] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [synced, setSynced] = useState(false);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -58,6 +61,8 @@ export default function SettingsPage() {
         setConnectionLink(data.link);
         setDeepLink(data.deepLink);
         setLinkExpiry(data.expiresAt);
+        setManualToken(data.token);
+        setSynced(false); // Reset sync status for new token
       } else {
         alert("Failed to generate link: " + data.error);
       }
@@ -89,6 +94,8 @@ export default function SettingsPage() {
       if (data.success) {
         setTelegramConnected(false);
         setConnectionLink(null);
+        setDeepLink(null);
+        setManualToken(null);
         alert("Telegram disconnected successfully!");
       } else {
         alert("Failed to disconnect: " + data.error);
@@ -273,6 +280,46 @@ export default function SettingsPage() {
                       <p className="text-xs text-zinc-500 mt-3">
                         This link expires in 10 minutes
                       </p>
+                    )}
+                    
+                    {/* Manual token for localhost testing */}
+                    {manualToken && (
+                      <div className="mt-4 pt-4 border-t border-blue-500/20">
+                        <p className="text-xs text-zinc-400 mb-2">
+                          <strong>Localhost?</strong> Click sync first, then the Telegram link:
+                        </p>
+                        <button
+                          onClick={async () => {
+                            setSyncing(true);
+                            try {
+                              const res = await fetch('/api/telegram/sync-token', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ username: user?.username }),
+                              });
+                              const data = await res.json();
+                              if (data.success) {
+                                setSynced(true);
+                                alert('Synced! Now click "Open in Telegram App" above.');
+                              } else {
+                                alert('Sync failed: ' + (data.error || 'Unknown error'));
+                              }
+                            } catch (e) {
+                              alert('Sync failed');
+                            } finally {
+                              setSyncing(false);
+                            }
+                          }}
+                          disabled={syncing || synced}
+                          className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+                            synced 
+                              ? 'bg-green-600 text-white' 
+                              : 'bg-orange-600 hover:bg-orange-500 text-white'
+                          }`}
+                        >
+                          {syncing ? 'Syncing...' : synced ? '✓ Synced!' : '🔄 Sync to Production'}
+                        </button>
+                      </div>
                     )}
                   </div>
                   

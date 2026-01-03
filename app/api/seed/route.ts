@@ -285,6 +285,7 @@ export async function POST(request: NextRequest) {
     );
 
     // Computer Labs (Lab 1-9) - Computers
+    let computerCounter = 1;
     labs.forEach((lab, labIndex) => {
       if (!lab) return;
       const labNum = labIndex + 1;
@@ -292,12 +293,13 @@ export async function POST(request: NextRequest) {
       
       for (let i = 1; i <= computerCount; i++) {
         resources.push({
-          name: `Computer Lab${labNum}-${String(i).padStart(3, '0')}`,
+          name: `Computer ${String(computerCounter).padStart(3, '0')}`,
           type: 'COMPUTER',
           quantity: 1,
           currentQuantity: Math.random() > 0.1 ? 1 : 0, // Some might be moved
           locationId: lab.id,
         });
+        computerCounter++;
       }
       
       // Lab chairs and desks
@@ -432,7 +434,7 @@ export async function POST(request: NextRequest) {
         locationId: labs[3]!.id, // Lab 4
         alertType: 'INVENTORY_CHANGE',
         urgency: 'DAY_TO_DAY',
-        message: 'Computer Lab4-003 moved to Lab9',
+        message: 'Computer 003 moved to Lab9',
         submittedBy: itStaff.id,
         status: 'PENDING',
       },

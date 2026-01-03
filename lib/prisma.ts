@@ -8,8 +8,8 @@ declare global {
 }
 
 function createPrismaClient(): PrismaClient {
-  // Use Turso in production
-  if (process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN) {
+  // Use Turso ONLY in production
+  if (process.env.NODE_ENV === 'production' && process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN) {
     const libsql = createClient({
       url: process.env.TURSO_DATABASE_URL.trim(),
       authToken: process.env.TURSO_AUTH_TOKEN.trim(),
@@ -18,7 +18,7 @@ function createPrismaClient(): PrismaClient {
     return new PrismaClient({ adapter } as any);
   }
   
-  // Use local SQLite for development
+  // Use local SQLite for development (FAST!)
   return new PrismaClient();
 }
 
