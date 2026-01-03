@@ -5,9 +5,10 @@ type Urgency = 'URGENT' | 'SERIOUS' | 'DAY_TO_DAY' | 'CRITICAL' | 'HIGH' | 'MEDI
 interface BadgeProps {
   children: React.ReactNode;
   variant?: Urgency | 'DEFAULT' | 'SUCCESS' | 'INFO';
+  className?: string;
 }
 
-export const Badge: React.FC<BadgeProps> = ({ children, variant = 'DEFAULT' }) => {
+export const Badge: React.FC<BadgeProps> = ({ children, variant = 'DEFAULT', className = '' }) => {
   const styles: Record<string, string> = {
     URGENT: "bg-red-500/20 text-red-400 border-red-500/30",
     CRITICAL: "bg-red-500/20 text-red-400 border-red-500/30", // Legacy support
@@ -22,7 +23,7 @@ export const Badge: React.FC<BadgeProps> = ({ children, variant = 'DEFAULT' }) =
   };
 
   return (
-    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${styles[variant] || styles.DEFAULT}`}>
+    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${styles[variant] || styles.DEFAULT} ${className}`}>
       {children}
     </span>
   );
