@@ -5,32 +5,27 @@ declare global {
   var cachedPrisma: PrismaClient | undefined;
 }
 
-function createPrismaClient(): PrismaClient {
-  // In production with Turso, we need to use libsql adapter
-  // But due to build issues, we'll use a workaround
-  if (process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN && typeof window === 'undefined') {
-    try {
-      // Dynamic require to avoid build issues
-      const { createClient } = require("@libsql/client/web");
-      const { PrismaLibSQL } = require("@prisma/adapter-libsql");
-      
-      const libsql = createClient({
-        url: process.env.TURSO_DATABASE_URL,
-        authToken: process.env.TURSO_AUTH_TOKEN,
-      });
-      const adapter = new PrismaLibSQL(libsql);
-      return new PrismaClient({ adapter } as any);
-    } catch (e) {
-      console.log("Falling back to regular Prisma client:", e);
-      return new PrismaClient();
-    }
-  }
+let prismaInstance: PrismaClient;
+
+// Check if we're in production with Turso
+if (process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN) {
+  // Use dynamic import for Turso in production
+  const { createClient } = require("@libsql/client/web");
+  const { PrismaLibSQL } = require("@prisma/adapter-libsql");
   
-  return new PrismaClient();
+  const libsql = createClient({
+    url: process.env.TURSO_DATABASE_URL.trim(),
+    authToken: process.env.TURSO_AUTH_TOKEN.trim(),
+  });
+  const adapter = new PrismaLibSQL(libsql);
+  prismaInstance = new PrismaClient({ adapter } as any);
+} else {
+  // Use regular Prisma for local development
+  prismaInstance = global.cachedPrisma ?? new PrismaClient();
+  
+  if (process.env.NODE_ENV !== "production") {
+    global.cachedPrisma = prismaInstance;
+  }
 }
 
-export const prisma = global.cachedPrisma ?? createPrismaClient();
-
-if (process.env.NODE_ENV !== "production") {
-  global.cachedPrisma = prisma;
-}
+export const prisma = prismaInstance;
