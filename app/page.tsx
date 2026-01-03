@@ -22,6 +22,9 @@ export default function LandingPage() {
             alt="Ambo University" 
             className="w-10 h-10 object-contain"
           />
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <GearIcon size={16} className="text-white" />
+          </div>
           <span className="text-white font-bold text-lg tracking-tight">ResourceMaster</span>
         </div>
         <Button 
@@ -39,22 +42,22 @@ export default function LandingPage() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8">
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-            <span className="text-blue-400 text-sm font-medium">Ambo University Management System</span>
+            <span className="text-blue-400 text-sm font-medium">Resource Management & Monitoring Control</span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            University Resource
+            Ambo University
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-              Planning Engine
+              ResourceMaster
             </span>
           </h1>
 
           {/* Description */}
           <p className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            A unified platform for tracking resources, managing alerts, and coordinating 
-            campus operations across Hachalu Hundesa Campus. From library books to lab equipment, 
-            everything in one place.
+            A resource management and monitoring control system with real-time alerts, 
+            designed for university administrators. Track inventory, manage assets, 
+            and receive instant notifications across all campus locations.
           </p>
 
           {/* CTA Buttons */}

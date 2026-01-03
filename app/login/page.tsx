@@ -56,13 +56,18 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md z-10">
         <div className="flex flex-col items-center mb-8">
-          <img 
-            src="/university.png" 
-            alt="Ambo University" 
-            className="w-20 h-20 object-contain mb-4"
-          />
-          <h1 className="text-3xl font-bold tracking-tight text-white mb-1">ResourceMaster</h1>
-          <p className="text-zinc-500 text-sm">Ambo University Management System</p>
+          <div className="flex items-center gap-4 mb-4">
+            <img 
+              src="/university.png" 
+              alt="Ambo University" 
+              className="w-16 h-16 object-contain"
+            />
+            <div className="w-14 h-14 bg-blue-600 rounded-[14px] flex items-center justify-center shadow-xl shadow-blue-500/20">
+              <GearIcon size={28} className="text-white" />
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight text-white mb-1">Ambo University ResourceMaster</h1>
+          <p className="text-zinc-500 text-sm text-center max-w-xs">Resource Management & Monitoring Control System</p>
         </div>
 
         <Card className="border-zinc-800/50 backdrop-blur-sm bg-zinc-900/40">

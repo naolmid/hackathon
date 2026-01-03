@@ -72,6 +72,9 @@ export default function DashboardLayout({
                 alt="Ambo University" 
                 className="w-8 h-8 object-contain transition-transform group-hover:scale-105"
               />
+              <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
+                <GearIcon size={14} className="text-white" />
+              </div>
               <span className="text-xl font-bold tracking-tight hidden md:block text-white">ResourceMaster</span>
             </Link>
 
