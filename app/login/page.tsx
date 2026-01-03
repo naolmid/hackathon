@@ -101,7 +101,7 @@ export default function LoginPage() {
         </Card>
 
         <p className="text-center mt-8 text-zinc-600 text-[10px] uppercase tracking-[0.2em]">
-          Powered by Digital Transformation Office
+          Powered by Group 8
         </p>
       </div>
     </div>
