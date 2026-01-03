@@ -25,7 +25,9 @@ const nextConfig = {
     
     return config;
   },
-  serverExternalPackages: ['@libsql/client', '@prisma/adapter-libsql', 'libsql'],
+  experimental: {
+    serverComponentsExternalPackages: ['@libsql/client', '@prisma/adapter-libsql', 'libsql'],
+  },
 }
 
 module.exports = nextConfig
