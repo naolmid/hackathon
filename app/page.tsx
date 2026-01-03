@@ -17,13 +17,8 @@ export default function LandingPage() {
       {/* Header */}
       <header className="relative z-10 flex items-center justify-between px-6 py-4 md:px-12 lg:px-20">
         <div className="flex items-center gap-3">
-          <img 
-            src="/university.png" 
-            alt="Ambo University" 
-            className="w-10 h-10 object-contain"
-          />
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <GearIcon size={16} className="text-white" />
+          <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
+            <GearIcon size={18} className="text-white" />
           </div>
           <span className="text-white font-bold text-lg tracking-tight">ResourceMaster</span>
         </div>
