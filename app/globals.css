@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #0a0a0c;
+    --foreground: #ffffff;
+    --accent: #6366f1;
+    --border: #1f1f1f;
+    --muted: #141414;
+    --surface: #16181d;
+    --secondary: #a0a0a0;
+  }
+
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-space-grotesk), system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Glock Grotesk font - add when font files are available */
+  @font-face {
+    font-family: 'Glock Grotesk';
+    src: url('/fonts/GlockGrotesk-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Glock Grotesk';
+    src: url('/fonts/GlockGrotesk-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Glock Grotesk';
+    src: url('/fonts/GlockGrotesk-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  .font-glock {
+    font-family: 'Glock Grotesk', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .animate-spin-slow {
+    animation: spin-slow linear infinite;
+  }
+}
+

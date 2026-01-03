@@ -1,0 +1,198 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  username      String   @unique
+  password      String
+  role          String
+  campusId      String?
+  campus        Campus?  @relation(fields: [campusId], references: [id])
+  locationId    String?
+  location      ResourceLocation? @relation(fields: [locationId], references: [id])
+  notifications NotificationPreference[]
+  telegramLink  TelegramLink?
+  bookLendings  BookLending[]
+  submittedAlerts ResourceAlert[] @relation("SubmittedAlerts")
+  assignedTasks MaintenanceAssignment[] @relation("AssignedTasks")
+  receivedTasks MaintenanceAssignment[] @relation("ReceivedTasks")
+  resourceMovements ResourceMovement[]
+  sentMessages Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  createdAt     DateTime @default(now())
+}
+
+model Campus {
+  id              String   @id @default(cuid())
+  name            String
+  resourceLocations ResourceLocation[]
+  admins          User[]
+  createdAt       DateTime @default(now())
+}
+
+model ResourceLocation {
+  id          String   @id @default(cuid())
+  name        String
+  type        String
+  campusId    String
+  campus      Campus   @relation(fields: [campusId], references: [id])
+  resources   ResourceItem[]
+  personnel   User[]
+  alerts      ResourceAlert[]
+  movementsFrom ResourceMovement[] @relation("FromLocation")
+  movementsTo ResourceMovement[] @relation("ToLocation")
+  createdAt   DateTime @default(now())
+}
+
+model ResourceItem {
+  id                String   @id @default(cuid())
+  name              String
+  type              String
+  quantity          Int
+  currentQuantity   Int
+  locationId        String
+  location          ResourceLocation @relation(fields: [locationId], references: [id])
+  usageHistory      UsageData[]
+  requisitions      Requisition[]
+  bookLendings      BookLending[]
+  alerts             ResourceAlert[]
+  movements         ResourceMovement[]
+  daysUntilDepletion Int?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model UsageData {
+  id          String   @id @default(cuid())
+  resourceId  String
+  resource    ResourceItem @relation(fields: [resourceId], references: [id])
+  usageRate   Float
+  submittedBy String
+  submittedAt DateTime @default(now())
+}
+
+model Requisition {
+  id          String   @id @default(cuid())
+  resourceId  String
+  resource    ResourceItem @relation(fields: [resourceId], references: [id])
+  quantity    Int
+  urgency     String
+  status      String
+  burnRate    Float
+  createdAt   DateTime @default(now())
+  approvedAt  DateTime?
+}
+
+model BookLending {
+  id            String   @id @default(cuid())
+  bookId        String
+  book          ResourceItem @relation(fields: [bookId], references: [id])
+  borrowerName  String
+  borrowerId    String?
+  lentDate      DateTime @default(now())
+  dueDate       DateTime
+  returnDate    DateTime?
+  status        String @default("LENT")
+  librarianId   String
+  librarian     User     @relation(fields: [librarianId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ResourceAlert {
+  id            String   @id @default(cuid())
+  resourceId    String?
+  resource      ResourceItem? @relation(fields: [resourceId], references: [id])
+  locationId    String
+  location      ResourceLocation @relation(fields: [locationId], references: [id])
+  alertType     String
+  urgency       String
+  message       String
+  status        String @default("PENDING")
+  submittedBy   String
+  submittedByUser User   @relation("SubmittedAlerts", fields: [submittedBy], references: [id])
+  acknowledgedBy String?
+  acknowledgedAt DateTime?
+  resolvedAt   DateTime?
+  assignments   MaintenanceAssignment[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model MaintenanceAssignment {
+  id            String   @id @default(cuid())
+  alertId       String
+  alert         ResourceAlert @relation(fields: [alertId], references: [id])
+  assignmentType String
+  assignedBy    String
+  assignedByUser User   @relation("AssignedTasks", fields: [assignedBy], references: [id])
+  assignedTo    String
+  assignedToUser User   @relation("ReceivedTasks", fields: [assignedTo], references: [id])
+  instructions  String
+  status        String @default("PENDING")
+  report        String?
+  completedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model NotificationPreference {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String
+  channel   String
+  enabled   Boolean  @default(true)
+}
+
+model TelegramLink {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  chatId        String?  @unique
+  secureToken   String?  @unique
+  tokenExpires  DateTime?
+  bonded        Boolean  @default(false)
+  notificationPreference String @default("URGENT_ONLY") // URGENT_ONLY, URGENT_AND_SERIOUS, OFF
+  createdAt     DateTime @default(now())
+}
+
+model Message {
+  id            String   @id @default(cuid())
+  fromUserId    String
+  fromUser      User     @relation("SentMessages", fields: [fromUserId], references: [id])
+  toUserId      String
+  toUser        User     @relation("ReceivedMessages", fields: [toUserId], references: [id])
+  subject       String?
+  content       String
+  read          Boolean  @default(false)
+  readAt        DateTime?
+  createdAt     DateTime @default(now())
+}
+
+model ResourceMovement {
+  id            String   @id @default(cuid())
+  resourceId    String?
+  resource      ResourceItem? @relation(fields: [resourceId], references: [id])
+  resourceName  String?  // Store resource name for cases where resource doesn't exist yet
+  fromLocationId String
+  fromLocation ResourceLocation @relation("FromLocation", fields: [fromLocationId], references: [id])
+  toLocationId   String
+  toLocation     ResourceLocation @relation("ToLocation", fields: [toLocationId], references: [id])
+  movedBy     String
+  movedByUser User     @relation(fields: [movedBy], references: [id])
+  reason      String?
+  createdAt   DateTime @default(now())
+}
+
+// SQLite doesn't support enums - all enum fields converted to String

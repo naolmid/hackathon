@@ -1,0 +1,63 @@
+## Master Platform Development Rules
+
+### Architecture Principles
+1. ADMINISTRATOR-FIRST DESIGN: Every feature must be designed from the administrator's perspective first. Administrators have complete visibility and control over all operations.
+2. HIERARCHICAL STRUCTURE: Always maintain campus → department → section hierarchy. Never break this structure.
+3. REAL-TIME UPDATES: All critical actions (schedule changes, approvals, votes, urgent escalations) must update in real-time using Socket.io.
+4. MOBILE-FIRST: Design all UI components mobile-first, then scale to desktop. Test on mobile viewport first.
+
+### Data Structure Rules
+1. Every user MUST be assigned to: campus → department → section (no exceptions)
+2. Class representatives: Maximum 2 per section, assigned by administrators only
+3. All requests MUST have urgency levels defined by administrators
+4. All voting MUST be trackable with participation metrics visible to administrators
+5. All decisions MUST be logged with timestamps and admin visibility
+
+### UI/Design System Rules
+1. Typography: Roca Two font with tight letter spacing
+2. Color Scheme:
+   - Light theme: #fafafa (background), #484b6a (text), #007acc (accent)
+   - Dark theme: #012a33 (background), bisque accents
+3. Border radius: Generous (use rounded-lg or rounded-xl consistently)
+4. Card-based interfaces: All major content in cards
+5. Branded PNG logos: Use on splash screens, headers, micro-UI elements
+6. Mobile-first layouts: Start with mobile breakpoint, then add desktop styles
+
+### Feature Implementation Rules
+1. ADMIN DASHBOARD: Must show real-time data for all campuses, departments, sections
+2. REQUEST SYSTEM: All requests flow through admin-defined escalation paths
+3. VOTING: Administrators can override results, set thresholds, or bypass voting
+4. SCHEDULES: All changes require admin visibility, admins can modify directly
+5. NOTIFICATIONS: Telegram bot integration is mandatory for all critical updates
+6. ACCOUNT RECOVERY: Email-only "forgot email" flow (no admin support needed)
+
+### Security & Permissions Rules
+1. Administrators can revoke any permission at any time
+2. Teachers can only approve/reject within admin-defined boundaries
+3. Students can only submit requests, cannot modify schedules or create polls
+4. Class representatives have no special permissions unless explicitly granted by admins
+5. All actions must be logged and visible to administrators
+
+### Code Quality Rules
+1. TypeScript strict mode: Always use TypeScript with strict type checking
+2. Component structure: Separate admin, teacher, and student views clearly
+3. API routes: All routes must check user permissions before executing
+4. Database queries: Always use Prisma ORM, never raw SQL
+5. Error handling: All errors must be logged and visible to administrators
+6. Real-time events: Use Socket.io rooms organized by campus/department/section hierarchy
+
+### Testing Rules
+1. Test admin override capabilities for every feature
+2. Test hierarchical structure integrity
+3. Test mobile responsiveness on all pages
+4. Test real-time updates across multiple users
+5. Test Telegram bot notifications for all critical events
+
+### Never Do
+1. Never allow students to modify schedules or create polls
+2. Never hide any action from administrators
+3. Never break the campus → department → section hierarchy
+4. Never create features that bypass admin oversight
+5. Never use academic/learning terminology - use administrative/governance terminology---
+alwaysApply: true
+---
