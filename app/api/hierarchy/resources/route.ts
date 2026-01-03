@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import { getResourcesByLocation } from "@/lib/hierarchy";
 
@@ -23,4 +25,5 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
 

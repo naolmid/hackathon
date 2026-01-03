@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendTelegramNotification } from "@/lib/telegram";
@@ -139,4 +141,5 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json({ status: "Telegram webhook active" });
 }
+
 

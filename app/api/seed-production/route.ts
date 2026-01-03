@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextResponse } from "next/server";
 import { createClient } from "@libsql/client/web";
 import crypto from "crypto";
@@ -156,4 +158,5 @@ export async function POST() {
 export async function GET() {
   return NextResponse.json({ message: "Use POST to seed the database" });
 }
+
 

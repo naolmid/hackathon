@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getLocationsByCampus } from "@/lib/hierarchy";
@@ -62,4 +64,5 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
 

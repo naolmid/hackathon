@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendTelegramNotification, shouldNotify, formatTelegramMessage } from "@/lib/telegram";
@@ -150,4 +152,5 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
 

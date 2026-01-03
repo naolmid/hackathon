@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { calculateBurnRate } from "@/lib/burn-rate-calculator";
@@ -63,4 +65,5 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
 

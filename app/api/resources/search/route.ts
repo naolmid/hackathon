@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import { searchResources } from "@/lib/resource-tree";
 
@@ -24,4 +26,5 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
 
