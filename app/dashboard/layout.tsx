@@ -67,9 +67,11 @@ export default function DashboardLayout({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-8">
             <Link href={getRoleDashboardPath()} className="flex items-center gap-3 group">
-              <div className="w-8 h-8 rounded-[8px] flex items-center justify-center transition-transform group-hover:scale-105">
-                <GearIcon size={20} className="text-white" />
-              </div>
+              <img 
+                src="/university.png" 
+                alt="Ambo University" 
+                className="w-8 h-8 object-contain transition-transform group-hover:scale-105"
+              />
               <span className="text-xl font-bold tracking-tight hidden md:block text-white">ResourceMaster</span>
             </Link>
 

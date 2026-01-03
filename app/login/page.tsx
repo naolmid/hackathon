@@ -56,9 +56,11 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md z-10">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-16 h-16 bg-blue-600 rounded-[16px] flex items-center justify-center mb-4 shadow-xl shadow-blue-500/20">
-            <GearIcon size={32} className="text-white" />
-          </div>
+          <img 
+            src="/university.png" 
+            alt="Ambo University" 
+            className="w-20 h-20 object-contain mb-4"
+          />
           <h1 className="text-3xl font-bold tracking-tight text-white mb-1">ResourceMaster</h1>
           <p className="text-zinc-500 text-sm">Ambo University Management System</p>
         </div>
