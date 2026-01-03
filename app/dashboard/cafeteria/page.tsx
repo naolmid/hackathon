@@ -6,6 +6,7 @@ import InventoryChangeForm from "@/components/staff/InventoryChangeForm";
 import SubmitAlertForm from "@/components/staff/SubmitAlertForm";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { Card, CardContent } from "@/components/ui/Card";
 
 export default function CafeteriaDashboard() {
   const router = useRouter();
