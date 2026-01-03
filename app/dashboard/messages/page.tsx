@@ -156,7 +156,7 @@ export default function MessagesPage() {
 
   const isUserAdmin = isAdmin();
   const userRole = getUserRole();
-  const isMaintenanceStaff = userRole === 'maintenancestaff' || userRole === 'maintenance_staff';
+  const isMaintenanceStaff = userRole === 'maintenancestaff';
   
   // Check if a message is a work request (for maintenance staff)
   const isWorkRequest = (msg: Message) => {
